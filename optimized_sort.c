@@ -12,22 +12,29 @@
 
 #include "push_swap.h"
 
-int	*chunk_size(int chsize, int size_bits)
+int	*chunk_size(int bit, int size_bits, t_stack *stack)
 {
 	int	i;
-	int	elxch[chsize];
+	int	j;
+	int	chsize;
+	int	*elxch;
 
+	chsize = ft_sq(bit)/2;
+	elxch = (int *)malloc(chsize * sizeof(int));
 	i = 0;
 	while (i++ < chsize)
 		elxch[i] = 0;
 	i = 0;
 	while (i++ < size_bits)
+	{
 		j = 0;
 		while (j < chsize)
-			if (stack->items[i] >> bit) & (j + 1))
+		{
+			if ((stack->items[i] >> bit) & (j + 1))
 				elxch[i]++;
+		}
 	}
-	
+	return (elxch);
 }
 
 void	optimized_sort(t_stack *a, t_stack *b)
@@ -38,7 +45,7 @@ void	optimized_sort(t_stack *a, t_stack *b)
 	int	bit;
 	int	max_bits;
 	int	size_bits;
-//	int	size;
+	int	*chusize;
 
 	max_bits = get_max_bits(a);
 //	size = a->top + 1;
@@ -47,10 +54,11 @@ void	optimized_sort(t_stack *a, t_stack *b)
 	{
 		flg = 1;
 		size_bits = get_bits(a, bit);
+		chusize = chunk_size(bit, size_bits, a);
 		if (bit > 3 && size_bits > 3)
 		{
 			i = 0;
-			while (i++ < size_bits/4)
+			while (i++ < size_bits)
                 	{
                         	num = peek(a);
                         	if ((num >> bit) != 0)
@@ -65,7 +73,6 @@ void	optimized_sort(t_stack *a, t_stack *b)
                                         	sb(a, b, 1);
                                         	while (!is_revsorted(b, i) && (size_bits) > 1)
                                         	{
-//                                              	printf("oi");
                                                 	pa(a, b, 1);
                                                 	sb(a, b, 1);
                                                 	size_bits--;
